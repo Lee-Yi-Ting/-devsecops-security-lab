@@ -3,22 +3,23 @@ import hashlib
 import subprocess
 
 
-def get_user_name():
-    unused_variable = "test"
-    name = input("Enter your name: ")
-    return name
-
-
-def generate_password_hash(password):
-    return hashlib.md5(password.encode()).hexdigest()
+def calculate_hash(message):
+    """Generate a secure SHA-256 hash."""
+    return hashlib.sha256(message.encode("utf-8")).hexdigest()
 
 
 def run_command():
-    subprocess.run("echo DevSecOps", shell=True)
+    """Execute a command without invoking a shell."""
+    result = subprocess.run(
+        ["python", "--version"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return result.stdout or result.stderr
 
 
 if __name__ == "__main__":
-    username = get_user_name()
-    print("Hello,", username)
-    print(generate_password_hash("demo-password"))
-    run_command()
+    print("DevSecOps Security Demo")
+    print("SHA-256:", calculate_hash("hello"))
+    print(run_command())
